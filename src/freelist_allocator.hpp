@@ -6,15 +6,12 @@
 #include "blk.hpp"
 
 class freelist_allocator {
-public:
-  void* allocate(std::size_t size) {
+ public:
+  blk allocate(std::size_t size) {}
 
-  }
+  void deallocate(blk b) {}
 
-  void deallocate(blk b) {
-
-  }
-
+  bool owns(blk b) {}
 };
 
 #endif
