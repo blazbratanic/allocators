@@ -7,7 +7,11 @@
 
 template <std::size_t threshold, class SmallAllocator, class LargeAllocator>
 class segregator : private SmallAllocator, private LargeAllocator {
-public:
+ public:
+  segregator() = default;
+  segregator(segregator const &) = delete;
+  segregator(segregator &&) = delete;
+
   blk allocate(std::size_t size) {
     if (size <= threshold) {
       return SmallAllocator::allocate(size);

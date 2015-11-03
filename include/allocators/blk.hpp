@@ -7,7 +7,7 @@ struct blk {
   void* ptr;
   std::size_t length;
 
-  operator bool() { return ptr; }
+  operator bool() const { return ptr != nullptr; }
 
   void reset() {
     ptr = nullptr;

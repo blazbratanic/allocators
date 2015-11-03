@@ -31,6 +31,10 @@ class cuda_freelist_allocator {
                 "aligned to at least 256 bytes");
 
  public:
+  cuda_freelist_allocator() = default;
+  cuda_freelist_allocator(cuda_freelist_allocator const &) = delete;
+  cuda_freelist_allocator(cuda_freelist_allocator &&) = delete;
+
   blk allocate(std::size_t size) {
     assert(size <= Size);
     if (free_blocks_.empty()) {

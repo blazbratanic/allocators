@@ -8,6 +8,10 @@
 template <class Primary, class Fallback>
 class fallback_allocator : private Primary, private Fallback {
  public:
+  fallback_allocator() = default;
+  fallback_allocator(fallback_allocator const &) = delete;
+  fallback_allocator(fallback_allocator &&) = delete;
+
   blk allocate(std::size_t size) {
     blk result = Primary::alocate(size);
     if (!result.ptr) {

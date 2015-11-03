@@ -1,16 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 set(PROJECT_NAME_STR allocators)
-PROJECT(${PROJECT_NAME_STR})
+PROJECT(${PROJECT_NAME_STR} CXX)
 
-include(FindCUDA)
+option(build_tests "Build tests for allocators" ON)
 
-include_directories(${PROJECT_SOURCE_DIR}/src
-                    ${CUDA_INCLUDE_DIRS})
+set(${PROJECT_NAME_STR}_include ${PROJECT_SOURCE_DIR}/include/allocators)
 
-file (GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
-file (GLOB HEADER_FILES ${PROJECT_SOURCE_DIR}/src/*.hpp)
+file(GLOB HEADER_FILES ${PROJECT_SOURCE_DIR}/include/allocators/*.hpp)
+set(SRC_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 add_executable(${PROJECT_NAME_STR} ${SRC_FILES} ${HEADER_FILES})
 
-message(STATUS ${CUDA_LIBRARIES})
-target_link_libraries(${PROJECT_NAME_STR} ${CUDA_LIBRARIES})
+if(${build_tests})
+    add_subdirectory(ext/googletest)
+    add_subdirectory(test)
+endif()
