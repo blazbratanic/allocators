@@ -7,6 +7,7 @@
 
 template <std::size_t Size>
 using CFA = cuda_freelist_allocator<Size, 8, 1024>;
-using cuda_allocator = pool_allocator<log_bucket_allocator<CFA, 1024, 2048 * 2048>>;
+using cuda_allocator = pool_allocator<
+    log_bucket_allocator<CFA, 1024, 2048 * 2048 * 3 * sizeof(float)>>;
 
 #endif CUDA_ALLOCATOR_HPP

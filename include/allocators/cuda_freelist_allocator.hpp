@@ -26,9 +26,7 @@ inline void gpuAssert(cudaError_t code, const char *file, int line) {
 template <std::size_t Size, std::size_t AllocationBlockCount = 8,
           std::size_t MaxSize = 1024>
 class cuda_freelist_allocator {
-  static_assert(Size % 256 == 0,
-                "Memory size must be a multiple of 256, because CUDA memory is "
-                "aligned to at least 256 bytes");
+  static_assert(Size % 256 == 0, "Memory size must be a multiple of 256!");
 
  public:
   cuda_freelist_allocator() = default;
@@ -62,14 +60,16 @@ class cuda_freelist_allocator {
 
   void deallocate_all() {
     free_blocks_.clear();
-    for (auto e : blocks_) {
+    for (auto &e : blocks_) {
       segregate(e.get());
     }
   }
 
   bool owns(blk b) {
-    for (auto e : blocks_) {
-      if (e.get() <= blk.ptr && blk.ptr < e.get() + Size) return true;
+    for (auto &e : blocks_) {
+      if (static_cast<char *>(e.get()) <= b.get<char>() &&
+          b.get<char>() < static_cast<char *>(e.get()) + Size)
+        return true;
     }
     return false;
   }

@@ -9,6 +9,11 @@ struct blk {
 
   operator bool() const { return ptr != nullptr; }
 
+  template <typename T>
+  T* get() {
+    return static_cast<T*>(ptr);
+  }
+
   void reset() {
     ptr = nullptr;
     length = 0;
